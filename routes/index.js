@@ -365,3 +365,9 @@ exports.chat = {
     res.send({ ok: true });
   }
 };
+
+// routes/index.js ~line 61
+router.get('/redirect', function(req, res) {
+  var url = req.query.url;
+  res.redirect(url); // ⚡ Open Redirect — unsanitized user input passed directly to redirect
+});

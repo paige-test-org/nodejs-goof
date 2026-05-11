@@ -365,3 +365,19 @@ exports.chat = {
     res.send({ ok: true });
   }
 };
+
+const express = require('express');
+const { exec } = require('child_process');
+
+const app = express();
+
+// Snyk Code: high — user-controlled input flows into exec (command injection)
+app.get('/run', (req, res) => {
+  const userCommand = req.query.cmd;
+  exec(userCommand, (err, stdout, stderr) => {
+    if (err) return res.status(500).send(stderr || String(err));
+    res.send(stdout);
+  });
+});
+
+app.listen(3000);
